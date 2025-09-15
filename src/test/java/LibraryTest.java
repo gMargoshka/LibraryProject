@@ -90,6 +90,7 @@ public class LibraryTest {
         library.addReader((reader1));
         library.addBook(book1);
         library.issueBook("Мастер и Маргарита",reader1);
+        assertTrue(library.returnBook(book1,reader1),"Книга1 не сдана читателем1");
 
 
     }

@@ -41,14 +41,16 @@ public class Library {
         return false;
     }
 
-    public void returnBook(Book book, Reader reader) {
+    public boolean returnBook(Book book, Reader reader) {
         Reader libraryReader = checkReaderByName(reader.getName());
         Book libraryBook = checkBook(book);
         if (libraryBook != null && libraryReader != null) {
             book.setStatus(BookStatus.FREE);
             reader.deleteBook(libraryBook);
             System.out.println("Спасибо, что сдали книгу!");
+            return true;
         }
+        return false;
     }
     public List<Reader> getReaders(){
         return readers;
