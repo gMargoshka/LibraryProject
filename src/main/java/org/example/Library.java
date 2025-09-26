@@ -42,9 +42,12 @@ public class Library {
     }
 
     public boolean returnBook(Book book, Reader reader) {
+        if (reader == null || reader == null) {
+            return false;
+        }
         Reader libraryReader = checkReaderByName(reader.getName());
-        Book libraryBook = checkBook(book);
-        if (libraryBook != null && libraryReader != null) {
+        Book libraryBook = checkReadersBook(reader,book);
+        if (libraryBook != null && libraryReader != null && book.getStatus() == BookStatus.IN_PROGRESS) {
             book.setStatus(BookStatus.FREE);
             reader.deleteBook(libraryBook);
             System.out.println("Спасибо, что сдали книгу!");
@@ -72,6 +75,15 @@ public class Library {
         for (Book libraryBook : books) {
             if (book.equals(libraryBook)) {
                 return libraryBook;
+            }
+        }
+        return null;
+    }
+    //метод проверяющий есть ли книга у конкретного читателя
+    public Book checkReadersBook(Reader reader, Book book) {
+        for (Book readerbook : reader.getBook()){
+            if (book!= null && reader != null && book.equals(readerbook)) {
+                return readerbook;
             }
         }
         return null;

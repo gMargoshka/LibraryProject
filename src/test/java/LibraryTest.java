@@ -88,11 +88,46 @@ public class LibraryTest {
     @Test
     public void returnBookSuccess(){ //доделать тесты
         library.addReader((reader1));
+        library.addReader((reader2));
+        library.addReader((reader3));
         library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
         library.issueBook("Мастер и Маргарита",reader1);
+        library.issueBook("Собачье сердце",reader2);
         assertTrue(library.returnBook(book1,reader1),"Книга1 не сдана читателем1");
+        library.issueBook("Мастер и Маргарита",reader1);
+        assertFalse(library.returnBook(book1,reader2),"Книга1, выданная читателю1, сдана читателем2");
+        assertFalse(library.returnBook(book2,reader1),"Книга2 сдана другим читателем");
+        assertFalse(library.returnBook(book3,reader1),"Невыданная Книга3 сдана читателем1");
 
+    }
 
+    @Test
+    public void cannotReturnAlreadyReturnedBook() {
+        library.addReader((reader1));
+        library.addReader((reader2));
+        library.addBook(book1);
+        library.addBook(book2);
+        library.issueBook("Мастер и Маргарита",reader1);
+        library.issueBook("Собачье сердце",reader2);
+        library.returnBook(book1,reader1);
+        assertFalse(library.returnBook(book1,reader1),"Возвращенная книга1 сдана читателем1");
+        assertFalse(library.returnBook(book1,reader2),"Возвращенная книга1 сдана читателем2, которому и не принадлежала");
+
+    }
+    @Test
+    public void returnBookFailed() {
+        library.addReader((reader1));
+        library.addReader((reader2));
+        library.addBook(book1);
+        library.addBook(book2);
+        library.issueBook("Мастер и Маргарита",reader1);
+        library.issueBook("Собачье сердце",reader2);
+        assertFalse(library.returnBook(null,reader1),"некорректная обработка null для книги.");
+        assertFalse(library.returnBook(book2,null),"некорректная обработка null для читателя.");
+        assertFalse(library.returnBook(book3,reader1),"Несуществующая книга в этой библиотеке возвращена читателем 1.");
+        assertFalse(library.returnBook(book1,reader3),"Книга1 возвращена несуществующим в этой библиотеке читателем 3.");
     }
 
 }
